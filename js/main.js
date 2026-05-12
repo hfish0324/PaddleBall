@@ -43,9 +43,7 @@ Paddle.prototype.update = function(deltaTime) {
         this.x = canvas.width - this.width;
 };
 
-/* -------------------------
    BALL
---------------------------*/
 
 function Ball(x, y) {
     GameObject.call(this, x, y, 20, 20, "red");
@@ -62,7 +60,7 @@ Ball.prototype.update = function(deltaTime) {
     this.vx = this.vx * friction;
     this.vy = this.vy * friction;
 
-    // Anchor point (center of paddle top)
+    // Anchor point 
     var anchorX = paddle.x + paddle.width / 2;
     var anchorY = paddle.y;
 
@@ -89,30 +87,21 @@ Ball.prototype.update = function(deltaTime) {
         this.vy = this.vy * 0.8;
     }
 };
-
-/* -------------------------
-   SETUP
---------------------------*/
-
+  // Setup
 var paddle = new Paddle(canvas.width / 2 - 60, canvas.height - 80);
 var ball = new Ball(
     canvas.width / 2 - 10,
     canvas.height - 80 - stringLength
 );
 
-/* -------------------------
-   UPDATE
---------------------------*/
-
+   // Update
 function update(deltaTime) {
     paddle.update(deltaTime);
     ball.update(deltaTime);
 }
 
-/* -------------------------
-   DRAW
---------------------------*/
 
+   // Draw
 function draw() {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -136,10 +125,7 @@ function draw() {
     ball.draw(ctx);
 }
 
-/* -------------------------
-   LOOP
---------------------------*/
-
+// Loop
 function gameLoop(timestamp) {
 
     var deltaTime = (timestamp - lastTime) / 16;
