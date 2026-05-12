@@ -7,9 +7,9 @@ var gravity = 0.4;
 var friction = 0.99;
 var stringLength = 150;
 
-/* -------------------------
-   PADDLE
---------------------------*/
+var score = 0;   // NEW
+
+   // Paddle 
 
 function Paddle(x, y) {
     GameObject.call(this, x, y, 120, 20, "cyan");
@@ -43,7 +43,8 @@ Paddle.prototype.update = function(deltaTime) {
         this.x = canvas.width - this.width;
 };
 
-   // BALL
+   // Ball
+
 function Ball(x, y) {
     GameObject.call(this, x, y, 20, 20, "red");
 }
@@ -59,7 +60,33 @@ Ball.prototype.update = function(deltaTime) {
     this.vx = this.vx * friction;
     this.vy = this.vy * friction;
 
-    // Anchor point 
+      
+    // Paddle Collision
+    
+   if (
+    this.x < paddle.x + paddle.width &&
+    this.x + this.width > paddle.x &&
+    this.y < paddle.y + paddle.height &&
+    this.y + this.height > paddle.y
+) {
+    // place ball above paddle
+    this.y = paddle.y - this.height;
+
+    // stronger bounce upward
+    this.vy = -Math.abs(this.vy) * 1.2;
+
+    // small extra lift so it doesn't stick
+    this.vy -= 2;
+
+    // horizontal influence
+    this.vx += paddle.vx * 0.5;
+
+    // Score increase
+    score++;
+}
+
+       // Anchor point 
+
     var anchorX = paddle.x + paddle.width / 2;
     var anchorY = paddle.y;
 
@@ -85,22 +112,41 @@ Ball.prototype.update = function(deltaTime) {
         this.vx = this.vx * 0.8;
         this.vy = this.vy * 0.8;
     }
+
+    // Loss Condition
+    if (this.y > canvas.height) {
+
+        // reset position
+        this.x = canvas.width / 2 - this.width / 2;
+        this.y = canvas.height - 80 - stringLength;
+
+        // reset velocity
+        this.vx = 0;
+        this.vy = 0;
+
+        // reset score
+        score = 0;
+    }
 };
-  // Setup
+
+   // Setup
+
 var paddle = new Paddle(canvas.width / 2 - 60, canvas.height - 80);
+
 var ball = new Ball(
     canvas.width / 2 - 10,
     canvas.height - 80 - stringLength
 );
 
    // Update
+
 function update(deltaTime) {
     paddle.update(deltaTime);
     ball.update(deltaTime);
 }
 
-
    // Draw
+
 function draw() {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -122,9 +168,15 @@ function draw() {
 
     paddle.draw(ctx);
     ball.draw(ctx);
+
+    // Score Counter
+    ctx.fillStyle = "black";
+    ctx.font = "20px Arial";
+    ctx.fillText("Score: " + score, 20, 30);
 }
 
-// Loop
+   // Loop
+
 function gameLoop(timestamp) {
 
     var deltaTime = (timestamp - lastTime) / 16;
