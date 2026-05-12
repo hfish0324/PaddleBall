@@ -43,8 +43,7 @@ Paddle.prototype.update = function(deltaTime) {
         this.x = canvas.width - this.width;
 };
 
-   BALL
-
+   // BALL
 function Ball(x, y) {
     GameObject.call(this, x, y, 20, 20, "red");
 }
