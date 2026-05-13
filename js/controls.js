@@ -1,9 +1,33 @@
-let keys = {};
+// Controls
 
-document.addEventListener('keydown', (event) => {
-    keys[event.key] = true;
-});
+var w = false;
+var s = false;
 
-document.addEventListener('keyup', (event) => {
-    keys[event.key] = false;
-});
+document.addEventListener("keydown", press);
+document.addEventListener("keyup", release);
+
+function press(e)
+{
+    if (e.keyCode == 65)
+    {
+        a = true;
+    }
+
+    if (e.keyCode == 68)
+    {
+        d = true;
+    }
+}
+
+function release(e)
+{
+    if (e.keyCode == 65)
+    {
+        a = false;
+    }
+
+    if (e.keyCode == 68)
+    {
+        d = false;
+    }
+}

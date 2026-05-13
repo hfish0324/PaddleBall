@@ -1,28 +1,21 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>Paddle Ball - Intro Version</title>
-    <style>
-        body {
-            margin: 0;
-            background: lightgray;
-            overflow: hidden;
-        }
-        canvas {
-            background: white;
-            display: block;
-            margin: 0 auto;
-            border: 2px black;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <title>Prototyping</title>
+    <meta name="description" content="Level 0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
+
 <body>
 
-<canvas id="gameCanvas" width="800" height="500"></canvas>
+    <canvas id="canvas" width="1024" height="800" style="border: 4px solid #000000;"></canvas>
 
-<script src="js/GameObject.js"></script>
-<script src="js/controls.js"></script>
-<script src="js/main.js"></script>
+    <script src="./js/player.js"></script>
+    <script src="./js/GameLoop.js"></script>
+    <script src="./js/controls.js"></script>
 
 </body>
+
 </html>
