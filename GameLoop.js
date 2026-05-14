@@ -5,8 +5,8 @@ var gravity = 0.3;
 
 var Score = 0;
 
-var d = false;
 var a = false;
+var d = false;
 
 canvas = document.getElementById("canvas");
 context = canvas.getContext("2d");
@@ -19,7 +19,6 @@ player = new GameObject(canvas.width / 2, 700, 190, 40);
 
 ball.vx = 0;
 ball.vy = 0;
-ball.jumpSpeed = -20;
 
 timer = setInterval(animate, interval);
 
@@ -43,10 +42,10 @@ function animate()
         ball.vx *= -1;
     }
 
-    if (ball.x < 0 + ball.width / 2)
+    if (ball.x < ball.width / 2)
     {
         ball.vx *= -1;
-        ball.x++;
+        ball.x = ball.width / 2;
     }
 
     if (ball.y > canvas.height + ball.height / 2 - 100)
@@ -78,51 +77,7 @@ function animate()
 
         if (a)
         {
-            player.vx += player.ax * -player.force;
-        }
-    }
-
-    if (ball.collisionCheck(player))
-    {
-        // Outer Left
-        if (ball.x < player.x - player.width / 3)
-        {
-            console.log("Outer Left");
-            ball.vy = -10;
-            ball.vx = ball.force * -5;
-            Score++;
-        }
-        // Inner Left
-        else if (ball.x < player.x - player.width / 6)
-        {
-            console.log("Inner Left");
-            ball.vy = -10;
-            ball.vx = ball.force * -2.5;
-            Score++;
-        }
-        // Middle
-        else if (ball.x < player.x + player.width / 6)
-        {
-            console.log("Center");
-            ball.vy = -10;
-            ball.vx = ball.force * 0;
-            Score++;
-        }
-        // Inner Right
-        else if (ball.x < player.x + player.width / 3)
-        {
-            console.log("Inner Right");
-            ball.vy = -10;
-            ball.vx = ball.force * 2.5;
-            Score++;
-        }
-        // Outer Right
-        else
-        {
-            console.log("Outer Right");
-            ball.vy = -10;
-            ball.vx = ball.force * 5;
-            Score++;
+            player.vx -= player.ax * player.force;
         }
     }
 
@@ -141,6 +96,8 @@ function animate()
     {
         if (ball.y > canvas.height - ball.height / 2)
         {
+            ball.vy *= -1;
+            Score = 0;
         }
     }
 
@@ -149,10 +106,43 @@ function animate()
         player.vx *= 0.93;
     }
 
+    if (ball.collisionCheck(player))
+    {
+        if (ball.x < player.x - player.width / 3)
+        {
+            ball.vy = -10;
+            ball.vx = ball.force * -5;
+            Score++;
+        }
+        else if (ball.x < player.x - player.width / 6)
+        {
+            ball.vy = -10;
+            ball.vx = ball.force * -2.5;
+            Score++;
+        }
+        else if (ball.x < player.x + player.width / 6)
+        {
+            ball.vy = -10;
+            ball.vx = 0;
+            Score++;
+        }
+        else if (ball.x < player.x + player.width / 3)
+        {
+            ball.vy = -10;
+            ball.vx = ball.force * 2.5;
+            Score++;
+        }
+        else
+        {
+            ball.vy = -10;
+            ball.vx = ball.force * 5;
+            Score++;
+        }
+    }
+
     context.beginPath();
     context.moveTo(ball.x, ball.y);
     context.lineTo(player.x, player.y);
-    context.closePath();
     context.lineWidth = 6;
     context.stroke();
 

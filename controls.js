@@ -1,7 +1,7 @@
 // Controls
 
-var w = false;
-var s = false;
+var a = false;
+var d = false;
 
 document.addEventListener("keydown", press);
 document.addEventListener("keyup", release);
